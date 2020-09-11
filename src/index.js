@@ -13,7 +13,24 @@ client.on('voiceStateUpdate', (oldMember, newMember) => {
     if (oldMember.member.user.username === 'Lok') bool = true;
     console.log(newMember.member.user.username);
 });
-
+function msConversion(millis) {
+    let sec = Math.floor(millis / 1000);
+    const hrs = Math.floor(sec / 3600);
+    sec -= hrs * 3600;
+    let min = Math.floor(sec / 60);
+    sec -= min * 60;
+  
+    sec = `${sec}`;
+    sec = (`00${sec}`).substring(sec.length);
+  
+    if (hrs > 0) {
+        min = `${min}`;
+        min = (`00${min}`).substring(min.length);
+        return `${hrs}:${min}:${sec}`;
+    }
+    
+    return `${min}:${sec}`;
+}
 client.on('ready', async () => {
     console.log('Bot iniciado');
 
@@ -30,7 +47,7 @@ client.on('ready', async () => {
     // eslint-disable-next-line consistent-return
     setInterval(async () => {
         const now = new Date();
-        const dataHora = `${zeroFill(now.getHours())}:${zeroFill(now.getMinutes())}:${zeroFill(now.getSeconds())}`;
+        const dataHora = `${zeroFill(now.getUTCHours() - 3)}:${zeroFill(now.getMinutes())}:${zeroFill(now.getUTCSeconds())}`;
         const users = {
             lucas8x: client.users.cache.get('137268577207189504'),
             luiz: client.users.cache.get('288046326183100416'),
@@ -40,7 +57,6 @@ client.on('ready', async () => {
             rezende: client.users.cache.get('175352673304838144'),
             lucasM: client.users.cache.get('499237045911420929'),
         };
-        console.log(dataHora);
         const voice = client.voice.client.channels.cache.get('589616885197438976');
         if (dataHora === '17:00:00') {
             client.channels.cache.get('575815357609148428').send(`Compareçam no chat de voz -> ${voice} <-\n\n*_Jogadores_*\n\n${users.cleitonpin}\n${users.luiz}\n${users.lucas8x}\n?${users.arthur}\n?${users.rezende}`);
