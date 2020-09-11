@@ -31,7 +31,7 @@ client.on('ready', () => {
         }
     
         if (dataHora === '18:00:00') {
-            client.channels.cache.get('575815357609148428').send(`Agora você que ganha 5k por mês\n\n${users.mauro}`);
+            client.channels.cache.get('575815357609148428').send(`Agora você que ganha 10k por mês\n\n${users.mauro}`);
         }
     }, 1000);
 });
