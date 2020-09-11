@@ -42,7 +42,7 @@ client.on('ready', async () => {
         };
         const voice = client.voice.client.channels.cache.get('589616885197438976');
         if (dataHora === '17:00:00') {
-            client.channels.cache.get('575815357609148428').send(`Compareçam no chat de voz -> ${voice} <-\n\n*_Jogadores_*\n\n${users.cleitonpin}\n${users.luiz}\n${users.lucas8x}\n?${users.arthur}\n?${users.rezende}`);
+            client.channels.cache.get('575815357609148428').send(`Compareçam no chat de voz -> ${voice} <-\n\n*_Jogadores_*\n\n${users.cleitonpin}\n${users.luiz}\n${users.lucas8x}\n?${users.arthur}\n?${users.rezende}\n?${users.lucasM}`);
         }
     
         if (dataHora === '18:00:00') {
