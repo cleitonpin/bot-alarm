@@ -1,18 +1,34 @@
 require('dotenv').config();
-const { Client, MessageEmbed } = require('discord.js');
+const {
+    Client, MessageEmbed, VoiceState, VoiceStateManager, 
+} = require('discord.js');
 
 const client = new Client();
 const token = process.env.BOT_TOKEn;
 
 const botPrefix = '-';
+let bool = false;
 
-client.on('ready', () => {
+client.on('voiceStateUpdate', (oldMember, newMember) => {
+    if (oldMember.member.user.username === 'Lok') bool = true;
+    console.log(newMember.member.user.username);
+});
+
+client.on('ready', async () => {
     console.log('Bot iniciado');
 
     client.user.setPresence({ activity: { name: '😉' }, afk: true, status: 'idle' });
 
+    const embed = new MessageEmbed();
+    const state = new VoiceState(client.guilds.cache.get('575815357609148426'), { 
+        user_id: '398223947403100170',
+        deaf: false,
+    });
+
     const zeroFill = (n) => (`0${n}`).slice(-2);
-    setInterval(() => {
+
+    // eslint-disable-next-line consistent-return
+    setInterval(async () => {
         const now = new Date();
         const dataHora = `${zeroFill(now.getHours())}:${zeroFill(now.getMinutes())}:${zeroFill(now.getSeconds())}`;
         const users = {
@@ -24,14 +40,26 @@ client.on('ready', () => {
             rezende: client.users.cache.get('175352673304838144'),
             lucasM: client.users.cache.get('499237045911420929'),
         };
+        console.log(dataHora);
+        const voice = client.voice.client.channels.cache.get('589616885197438976');
         if (dataHora === '17:00:00') {
-            const voice = client.voice.client.channels.cache.get('589616885197438976');
-            
             client.channels.cache.get('575815357609148428').send(`Compareçam no chat de voz -> ${voice} <-\n\n*_Jogadores_*\n\n${users.cleitonpin}\n${users.luiz}\n${users.lucas8x}\n?${users.arthur}\n?${users.rezende}`);
         }
     
         if (dataHora === '18:00:00') {
-            client.channels.cache.get('575815357609148428').send(`Agora você que ganha 5k por mês\n\n${users.mauro}`);
+            client.channels.cache.get('575815357609148428').send(`Agora você que ganha 10k por mês\n\n${users.mauro}`);
+        } else if (dataHora === '18:05:00') {
+            try {
+                await state.setChannel('589616885197438976');
+            } catch (err) {
+                client.channels.cache.get('575815357609148428').send(`Entre no chat de voz -> ${voice} <- ${users.mauro}!!!!`);
+            }
+        } else if (dataHora === '18:30:00') {
+            try {
+                await state.setChannel('589616885197438976');
+            } catch (err) {
+                client.channels.cache.get('575815357609148428').send(`Desisto de chamar você ${users.mauro}`);
+            }
         }
     }, 1000);
 });
