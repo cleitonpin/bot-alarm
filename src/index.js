@@ -21,7 +21,7 @@ client.on('ready', async () => {
 
     const embed = new MessageEmbed();
     const state = new VoiceState(client.guilds.cache.get('575815357609148426'), { 
-        user_id: '398223947403100170',
+        user_id: '294959047654768641',
         deaf: false,
     });
 
