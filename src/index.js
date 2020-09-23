@@ -44,7 +44,7 @@ client.on('ready', async () => {
                 .setFooter('Reajam para confirmar')
                 .setThumbnail('https://seeklogo.com/images/V/valorant-logo-FAB2CA0E55-seeklogo.com.png');
 
-            const reactionEmbed = await client.channels.cache.get('753736001582792784').send(embed);
+            const reactionEmbed = await client.channels.cache.get('575815357609148428').send(embed);
             await reactionEmbed.react('✅');
             await reactionEmbed.react('❌');
 
@@ -62,14 +62,14 @@ client.on('ready', async () => {
             collector.on('collect', async (reaction, user) => {
                 if (reaction.emoji.name === '✅') {
                     const usersConfirmeds = [user.username];
-                    client.channels.cache.get('753736001582792784').send(`\n${usersConfirmeds.join(" ")}   ✅`);
+                    client.channels.cache.get('575815357609148428').send(`\n${usersConfirmeds.join(" ")}   ✅`);
                 } else if (reaction.emoji.name === '❌') {
                     if (user.username === 'Tokisaki') return;
                     const usersNotConfirmations = [user.username];
-                    client.channels.cache.get('753736001582792784').send(`\n${usersNotConfirmations.join(" ")}   ❌`);
+                    client.channels.cache.get('575815357609148428').send(`\n${usersNotConfirmations.join(" ")}   ❌`);
                 } else {
                     const usersFailed = [user.username];
-                    client.channels.cache.get('753736001582792784').send(`\n${usersFailed.join(" ")} Não reagiram`);
+                    client.channels.cache.get('575815357609148428').send(`\n${usersFailed.join(" ")} Não reagiram`);
                 }
             });
 
