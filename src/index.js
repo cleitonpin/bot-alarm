@@ -1,34 +1,28 @@
+/* eslint-disable no-shadow */
+/* eslint-disable no-var */
+/* eslint-disable block-scoped-var */
 require('dotenv').config();
 const {
-    Client, MessageEmbed, VoiceState, VoiceStateManager, 
+    Client, MessageEmbed, VoiceState, VoiceStateManager, Invite,
 } = require('discord.js');
+const ytdl = require('ytdl-core-discord');
 
 const client = new Client();
 const token = process.env.BOT_TOKEn;
 
-const botPrefix = '-';
-let bool = false;
-
-client.on('voiceStateUpdate', (oldMember, newMember) => {
-    if (oldMember.member.user.username === 'Lok') bool = true;
-    console.log(newMember.member.user.username);
-});
+const botPrefix = '+';
 
 client.on('ready', async () => {
     console.log('Bot iniciado');
 
     client.user.setPresence({ activity: { name: '😉' }, afk: true, status: 'idle' });
-
-    const embed = new MessageEmbed();
-    const state = new VoiceState(client.guilds.cache.get('575815357609148426'), { 
-        user_id: '398223947403100170',
-        deaf: false,
-    });
-
     const zeroFill = (n) => (`0${n}`).slice(-2);
-
-    // eslint-disable-next-line consistent-return
+    
     setInterval(async () => {
+        const state = new VoiceState(client.guilds.cache.get('575815357609148426'), { 
+            user_id: '398223947403100170',
+            deaf: false,
+        });
         const now = new Date();
         const dataHora = `${zeroFill(now.getUTCHours() - 3)}:${zeroFill(now.getMinutes())}:${zeroFill(now.getUTCSeconds())}`;
         const users = {
@@ -41,10 +35,48 @@ client.on('ready', async () => {
             lucasM: client.users.cache.get('499237045911420929'),
         };
         const voice = client.voice.client.channels.cache.get('589616885197438976');
+
         if (dataHora === '17:00:00') {
-            client.channels.cache.get('575815357609148428').send(`Compareçam no chat de voz -> ${voice} <-\n\n*_Jogadores_*\n\n${users.cleitonpin}\n${users.luiz}\n${users.lucas8x}\n?${users.arthur}\n?${users.rezende}`);
+            const embed = new MessageEmbed()
+                .setTitle('Hora')
+                .setDescription(`Compareçam no chat de voz -> ${voice} <-\n\n_Jogadores_\n\n${users.cleitonpin}\n${users.luiz}\n${users.lucas8x}\n${users.lucasM}\n${users.rezende}\n${users.arthur}`)
+                .setTimestamp()
+                .setFooter('Reajam para confirmar')
+                .setThumbnail('https://seeklogo.com/images/V/valorant-logo-FAB2CA0E55-seeklogo.com.png');
+
+            const reactionEmbed = await client.channels.cache.get('753736001582792784').send(embed);
+            await reactionEmbed.react('✅');
+            await reactionEmbed.react('❌');
+
+            // eslint-disable-next-line consistent-return
+            const filter = (reaction, user) => {
+                // eslint-disable-next-line default-case
+                switch (reaction.emoji.name) {
+                case "✅": return user.id;
+                case "❌": return user.id;
+                }
+            };
+
+            const collector = reactionEmbed.createReactionCollector(filter, { max: undefined });
+            
+            collector.on('collect', async (reaction, user) => {
+                if (reaction.emoji.name === '✅') {
+                    const usersConfirmeds = [user.username];
+                    client.channels.cache.get('753736001582792784').send(`\n${usersConfirmeds.join(" ")}   ✅`);
+                } else if (reaction.emoji.name === '❌') {
+                    if (user.username === 'Tokisaki') return;
+                    const usersNotConfirmations = [user.username];
+                    client.channels.cache.get('753736001582792784').send(`\n${usersNotConfirmations.join(" ")}   ❌`);
+                } else {
+                    const usersFailed = [user.username];
+                    client.channels.cache.get('753736001582792784').send(`\n${usersFailed.join(" ")} Não reagiram`);
+                }
+            });
+
+            setTimeout(() => {
+                reactionEmbed.delete();
+            }, 1800000);
         }
-    
         if (dataHora === '18:00:00') {
             client.channels.cache.get('575815357609148428').send(`Agora você que ganha 10k por mês\n\n${users.mauro}`);
         } else if (dataHora === '18:05:00') {
@@ -63,4 +95,30 @@ client.on('ready', async () => {
     }, 1000);
 });
 
+client.on('message', async (message) => {
+    if (message.author.bot) return;
+    if (!message.content.startsWith(botPrefix)) return;
+    
+    const args = message.content.substring(botPrefix.length).split(" ");
+    
+    // eslint-disable-next-line consistent-return
+});
+
+client.on('guildMemberAdd', (member) => {
+    const guild = client.guilds.cache.get("575815357609148426");
+    const channel = client.channels.cache.get("618232063170183198");
+    const emoji = member.guild.emojis.cache.find((emojiName) => emojiName.name === "tuts");
+
+    const embed = new MessageEmbed()
+        .setColor('#0032')
+        .setDescription(`${member.user}, Boas vindas ao ${guild.name}, com ${member.guild.memberCount} membros`)
+        .setTitle(`${emoji} Boas vindas ${emoji}`)
+        .setAuthor(member.user.tag, member.user.displayAvatarURL())
+        .setImage('https://media.giphy.com/media/4QxQgWZHbeYwM/giphy.gif')
+        .setThumbnail(member.user.displayAvatarURL({ dynamic: true, format: 'png', size: 1024 }))
+        .setFooter(`ID do úsuario: ${member.user.id}`)
+        .setTimestamp();
+
+    channel.send(embed);
+});
 client.login(token);
