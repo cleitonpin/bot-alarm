@@ -42,7 +42,8 @@ client.on('ready', async () => {
                 .setTitle('Hora de playing')
                 .setTimestamp()
                 .setFooter('Reajam para confirmar')
-                .setThumbnail('https://seeklogo.com/images/V/valorant-logo-FAB2CA0E55-seeklogo.com.png');
+                .setThumbnail('https://seeklogo.com/images/V/valorant-logo-FAB2CA0E55-seeklogo.com.png')
+                .setImage('https://media1.tenor.com/images/ecc46e7dca1e13982b41fbe404764145/tenor.gif?itemid=17412863');
 
             const reactionEmbed = await client.channels.cache.get('575815357609148428').send(embed);
             await reactionEmbed.react('✅');
