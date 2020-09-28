@@ -97,13 +97,27 @@ client.on('ready', async () => {
     }, 1000);
 });
 
-client.on('message', async (message) => {
-    if (message.author.bot) return;
-    if (!message.content.startsWith(botPrefix)) return;
+client.on('raw', async (dados) => {
+    if (dados.t !== "PRESENCE_UPDATE") return;
+
+    if (dados.t === "PRESENCE_UPDATE" && client.guilds.cache.get('575815357609148426').members.cache.get(dados.d.user.id)) {
+        // console.log(dados.d)
+        const serv = client.guilds.cache.get('575815357609148426');
+        const membro = serv.members.cache.get(dados.d.user.id);
+
+        const roles = {
+            valorant: serv.roles.cache.get('755993993132638278'),
+        };
+
+        // eslint-disable-next-line no-useless-return
+        if (dados.d.game == null || dados.d.game.name == null || dados.d.game.name === 'Custom Status') return;
     
-    const args = message.content.substring(botPrefix.length).split(" ");
-    
-    // eslint-disable-next-line consistent-return
+        if (dados.d.game.name === 'VALORANT') {
+            if (!membro.roles.cache.has(roles.valorant)) {
+                membro.roles.add(roles.valorant);
+            }
+        }
+    }
 });
 
 client.on('guildMemberAdd', (member) => {
