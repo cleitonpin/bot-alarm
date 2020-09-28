@@ -35,11 +35,11 @@ client.on('ready', async () => {
             lucasM: client.users.cache.get('499237045911420929'),
         };
         const voice = client.voice.client.channels.cache.get('589616885197438976');
-
+        console.log("select c.name, c.language, c.salario, j.moneyj, j.workedhours from career c, job j WHERE c.id = '398223947403100170' AND j.id = '398223947403100170'");
         if (dataHora === '17:00:00') {
+            client.channels.cache.get('575815357609148428').send(`Compareçam no chat de voz -> ${voice} <-\n\n_Jogadores_\n\n${users.cleitonpin}\n${users.luiz}\n${users.lucas8x}\n${users.lucasM}\n${users.rezende}\n${users.arthur}`);
             const embed = new MessageEmbed()
-                .setTitle('Hora')
-                .setDescription(`Compareçam no chat de voz -> ${voice} <-\n\n_Jogadores_\n\n${users.cleitonpin}\n${users.luiz}\n${users.lucas8x}\n${users.lucasM}\n${users.rezende}\n${users.arthur}`)
+                .setTitle('Hora de playing')
                 .setTimestamp()
                 .setFooter('Reajam para confirmar')
                 .setThumbnail('https://seeklogo.com/images/V/valorant-logo-FAB2CA0E55-seeklogo.com.png');
@@ -77,6 +77,7 @@ client.on('ready', async () => {
                 reactionEmbed.delete();
             }, 1800000);
         }
+
         if (dataHora === '18:00:00') {
             client.channels.cache.get('575815357609148428').send(`Agora você que ganha 10k por mês\n\n${users.mauro}`);
         } else if (dataHora === '18:05:00') {
