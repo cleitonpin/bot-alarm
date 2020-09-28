@@ -39,10 +39,9 @@ client.on('ready', async () => {
         if (dataHora === '17:00:00') {
             client.channels.cache.get('575815357609148428').send(`Compareçam no chat de voz -> ${voice} <-\n\n_Jogadores_\n\n${users.cleitonpin}\n${users.luiz}\n${users.lucas8x}\n${users.lucasM}\n${users.rezende}\n${users.arthur}`);
             const embed = new MessageEmbed()
-                .setTitle('Hora de playing')
+                .setAuthor('Hora de playing', 'https://seeklogo.com/images/V/valorant-logo-FAB2CA0E55-seeklogo.com.png'')
                 .setTimestamp()
                 .setFooter('Reajam para confirmar')
-                .setThumbnail('https://seeklogo.com/images/V/valorant-logo-FAB2CA0E55-seeklogo.com.png')
                 .setImage('https://media1.tenor.com/images/ecc46e7dca1e13982b41fbe404764145/tenor.gif?itemid=17412863');
 
             const reactionEmbed = await client.channels.cache.get('575815357609148428').send(embed);
